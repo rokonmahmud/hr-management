@@ -1,0 +1,62 @@
+
+services:
+
+  php:
+    build:
+      context: ../src
+      dockerfile: ../docker/Dockerfile
+    container_name: hr-management-php
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
+    volumes:
+      - ../src:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - hr-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: hr-management-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - hr-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: hr-management-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - hr-network
+
+volumes:
+  mysql_data:
+
+networks:
+  hr-network:
+    driver: bridge
