@@ -17,3 +17,4 @@ RUN printf '<Directory /var/www/html>\n\
 WORKDIR /var/www/html
 
 EXPOSE 80
+    
