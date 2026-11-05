@@ -25,7 +25,7 @@
             <div class="dashboard-content">
                <?php 
                
-               echo "this is our employee page";
+               echo "this is our  page";
                
                ?>
 
