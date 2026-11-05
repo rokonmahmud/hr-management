@@ -1,1 +1,0 @@
-<footer class="dashboard-footer"><span>PeopleDesk Admin</span><span>HR overview · Data shown for demonstration</span></footer>
