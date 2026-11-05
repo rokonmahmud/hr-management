@@ -13,11 +13,11 @@
                 <button class="btn-close d-lg-none" type="button" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebar" aria-label="Close navigation"></button>
             </div>
 
-            <div class="workspace-switcher">
+            <!-- <div class="workspace-switcher">
                 <span class="workspace-avatar">N</span>
                 <span class="workspace-details"><strong>Northstar Studio</strong><small>Workspace</small></span>
                 <span class="workspace-caret" aria-hidden="true">⌄</span>
-            </div>
+            </div> -->
 
             <nav class="sidebar-nav" aria-label="Main navigation">
                 <span class="nav-caption">WORKSPACE</span>
