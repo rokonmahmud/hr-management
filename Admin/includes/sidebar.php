@@ -59,12 +59,12 @@
                 <a class="nav-link" href="#settings">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" stroke="currentColor" stroke-width="1.7"/><path d="m19.4 13.5 1.2 1-.9 1.6-1.5-.3a7.6 7.6 0 0 1-1.5.9l-.4 1.5h-1.9l-.5-1.4a7.5 7.5 0 0 1-1.7 0l-.8 1.2-1.7-.7.2-1.5a7.5 7.5 0 0 1-1.2-1.3l-1.5.1-.6-1.8 1.2-.9a7.4 7.4 0 0 1-.1-1.7l-1.2-.8.6-1.8 1.5.1a7.5 7.5 0 0 1 1.3-1.2l-.1-1.5 1.8-.6.9 1.2a7.4 7.4 0 0 1 1.7-.1l.8-1.2 1.8.6-.1 1.5a7.5 7.5 0 0 1 1.2 1.3l1.5-.1.6 1.8-1.2.9a7.4 7.4 0 0 1 .1 1.7Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
                     <span>Settings</span>
-                </a>
-                <div class="sidebar-help">
+                </a>    
+                <!-- <div class="sidebar-help">
                     <span class="help-icon">?</span>
                     <div><strong>Need a hand?</strong><small>Visit our help center</small></div>
                     <span class="help-arrow" aria-hidden="true">↗</span>
-                </div>
+                </div> -->
                 <div class="profile-link">
                     <span class="profile-avatar">AM</span>
                     <span class="profile-details"><strong>Alex Morgan</strong><small>Administrator</small></span>

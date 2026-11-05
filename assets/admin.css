@@ -31,10 +31,24 @@ body {
     flex: 0 0 250px;
     flex-direction: column;
     width: 250px;
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
     padding: 22px 15px 14px;
     border-right: 1px solid var(--admin-line);
     background: #fff;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        position: sticky;
+        top: 0;
+        align-self: flex-start;
+    }
 }
 
 .sidebar-header {
@@ -1010,7 +1024,6 @@ body {
 @media (max-width: 991.98px) {
     .sidebar.offcanvas-lg {
         --bs-offcanvas-width: 258px;
-        min-height: 100vh;
         border-right: 0;
         box-shadow: 10px 0 35px rgba(25, 45, 59, 0.1);
     }
@@ -1093,15 +1106,6 @@ body {
     .dashboard-footer {
         gap: 12px;
         flex-direction: column;
-    }
-}
-
-@media (max-height: 720px) and (min-width: 992px) {
-    .sidebar {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        min-height: 0;
     }
 }
 

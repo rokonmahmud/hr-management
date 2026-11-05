@@ -150,7 +150,7 @@
                     </div>
                 </section>
 
-                <footer class="dashboard-footer"><span>PeopleDesk Admin</span><span>HR overview · Data shown for demonstration</span></footer>
+                <?php include_once("includes/footer.php") ?>
             </div>
         </main>
     </div>
