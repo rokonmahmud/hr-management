@@ -25,7 +25,6 @@
             <div class="dashboard-content">
                 <section class="welcome-row">
                     <div>
-                        
                         <span class="welcome-kicker">WEDNESDAY, NOVEMBER 4, 2026</span>
                         <h1>Good morning, Alex <span aria-hidden="true">✦</span></h1>
                         <p>Here’s what’s happening with your team today.</p>

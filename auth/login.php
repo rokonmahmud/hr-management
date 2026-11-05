@@ -1,3 +1,7 @@
+
+
+<?php include("config/db.php")?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,7 +16,6 @@
     <link rel="stylesheet" href="../assets/auth.css">
 </head>
 <body>
-
 
 
     <main class="auth-layout container-fluid vh-100 min-vh-100 overflow-hidden p-0">
@@ -119,5 +122,11 @@
             </section>
         </div>
     </main>
+    <?php 
+
+        
+    
+    
+    ?>
 </body>
 </html>

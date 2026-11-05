@@ -23,10 +23,10 @@
             ?> 
 
             <div class="dashboard-content">
-               THIS IS OUR joy CONENT
+                <h1>EMPLOYEE PAGE</h1>
 
+                <?php include_once("includes/footer.php") ?>
             </div>
-            <?php include_once("includes/footer.php") ?>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
