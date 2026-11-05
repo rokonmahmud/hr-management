@@ -1,6 +1,6 @@
 
 <?php 
 
-    echo "hello";
+    header("Location:Admin/index.php")
 
 ?>
