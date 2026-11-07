@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
+    header("Location: ../index.php");
+    exit;
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,7 +36,7 @@
                 <section class="welcome-row">
                     <div>
                         <span class="welcome-kicker">WEDNESDAY, NOVEMBER 4, 2026</span>
-                        <h1>Good morning, Alex <span aria-hidden="true">✦</span></h1>
+                        <h1>Good morning, <?php echo $_SESSION['name']; ?> <span aria-hidden="true">✦</span></h1>
                         <p>Here’s what’s happening with your team today.</p>
                     </div>
                     <a class="btn btn-primary add-employee-button" href="#employees">

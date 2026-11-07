@@ -4,12 +4,12 @@
     $host = "localhost";
     $user = "root";
     $password = "";
-    $db = "";
+    $db = "hr-management";
 
-    $conn = mysqli_connect($host, $user, $password, $db)
+    $conn = mysqli_connect($host, $user, $password, $db);
 
     if(!$conn){
-        die("Database connection faild" . mysqli_connect_error());
+        die("Database connection failed" . mysqli_connect_error());
     };
 
 
