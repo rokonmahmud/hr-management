@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 05, 2026 at 04:20 AM
+-- Generation Time: Nov 07, 2026 at 05:43 PM
 -- Server version: 8.4.3
--- PHP Version: 8.3.33
+-- PHP Version: 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hr_management`
+-- Database: `hr-management`
 --
 
 -- --------------------------------------------------------
@@ -33,7 +33,9 @@ CREATE TABLE `attendance` (
   `att_date` date NOT NULL,
   `check_in` time DEFAULT NULL,
   `check_out` time DEFAULT NULL,
-  `status` enum('present','late','absent','on_leave') NOT NULL DEFAULT 'present'
+  `status` enum('present','late','absent','on_leave') NOT NULL DEFAULT 'present',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -44,18 +46,20 @@ CREATE TABLE `attendance` (
 
 CREATE TABLE `departments` (
   `id` int UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `departments`
 --
 
-INSERT INTO `departments` (`id`, `name`) VALUES
-(4, 'Accounts'),
-(3, 'HR'),
-(1, 'IT'),
-(2, 'Sales');
+INSERT INTO `departments` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'IT', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(2, 'Sales', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(3, 'HR', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(4, 'Accounts', '2026-11-05 19:42:02', '2026-11-05 19:42:02');
 
 -- --------------------------------------------------------
 
@@ -65,18 +69,20 @@ INSERT INTO `departments` (`id`, `name`) VALUES
 
 CREATE TABLE `designations` (
   `id` int UNSIGNED NOT NULL,
-  `title` varchar(100) NOT NULL
+  `title` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `designations`
 --
 
-INSERT INTO `designations` (`id`, `title`) VALUES
-(1, 'Manager'),
-(2, 'Junior PHP Developer'),
-(3, 'Sales Executive'),
-(4, 'Accountant');
+INSERT INTO `designations` (`id`, `title`, `created_at`, `updated_at`) VALUES
+(1, 'Manager', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(2, 'Senior Developer', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(3, 'Junior PHP Developer', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(4, 'Executive', '2026-11-05 19:42:02', '2026-11-05 19:42:02');
 
 -- --------------------------------------------------------
 
@@ -92,7 +98,9 @@ CREATE TABLE `employees` (
   `emp_code` varchar(20) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `join_date` date NOT NULL,
-  `status` enum('active','inactive') NOT NULL DEFAULT 'active'
+  `status` enum('active','inactive','resigned') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -104,7 +112,9 @@ CREATE TABLE `employees` (
 CREATE TABLE `holidays` (
   `id` int UNSIGNED NOT NULL,
   `title` varchar(100) NOT NULL,
-  `holiday_date` date NOT NULL
+  `holiday_date` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -118,7 +128,9 @@ CREATE TABLE `leave_balances` (
   `employee_id` int UNSIGNED NOT NULL,
   `leave_type_id` int UNSIGNED NOT NULL,
   `year` smallint UNSIGNED NOT NULL,
-  `days_left` decimal(4,1) NOT NULL DEFAULT '0.0'
+  `days_left` decimal(5,1) NOT NULL DEFAULT '0.0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -135,8 +147,10 @@ CREATE TABLE `leave_requests` (
   `end_date` date NOT NULL,
   `reason` varchar(255) DEFAULT NULL,
   `status` enum('pending','approved','rejected','cancelled') NOT NULL DEFAULT 'pending',
-  `approved_by` int UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `approved_by` int UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ;
 
 -- --------------------------------------------------------
 
@@ -147,17 +161,19 @@ CREATE TABLE `leave_requests` (
 CREATE TABLE `leave_types` (
   `id` int UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
-  `days_per_year` tinyint UNSIGNED NOT NULL DEFAULT '0'
+  `days_per_year` smallint UNSIGNED NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `leave_types`
 --
 
-INSERT INTO `leave_types` (`id`, `name`, `days_per_year`) VALUES
-(1, 'Casual', 10),
-(2, 'Sick', 14),
-(3, 'Annual', 20);
+INSERT INTO `leave_types` (`id`, `name`, `days_per_year`, `created_at`, `updated_at`) VALUES
+(1, 'Casual Leave', 10, '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(2, 'Sick Leave', 14, '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(3, 'Annual Leave', 15, '2026-11-05 19:42:02', '2026-11-05 19:42:02');
 
 -- --------------------------------------------------------
 
@@ -187,7 +203,9 @@ CREATE TABLE `payroll` (
   `deductions` decimal(10,2) NOT NULL DEFAULT '0.00',
   `net_salary` decimal(10,2) NOT NULL DEFAULT '0.00',
   `status` enum('draft','approved','paid') NOT NULL DEFAULT 'draft',
-  `paid_at` datetime DEFAULT NULL
+  `paid_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -202,7 +220,9 @@ CREATE TABLE `salary_structures` (
   `basic` decimal(10,2) NOT NULL DEFAULT '0.00',
   `house_rent` decimal(10,2) NOT NULL DEFAULT '0.00',
   `medical` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `conveyance` decimal(10,2) NOT NULL DEFAULT '0.00'
+  `conveyance` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -217,8 +237,19 @@ CREATE TABLE `users` (
   `email` varchar(150) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','hr','employee') NOT NULL DEFAULT 'employee',
-  `status` enum('active','inactive') NOT NULL DEFAULT 'active'
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 'active', '2026-11-05 20:03:20', '2026-11-07 17:24:02'),
+(2, 'emp', 'employee@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee', 'active', '2026-11-07 14:14:41', '2026-11-07 17:24:26'),
+(3, 'hr', 'hr@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'hr', 'active', '2026-11-07 17:29:08', '2026-11-07 17:29:08');
 
 --
 -- Indexes for dumped tables
@@ -229,7 +260,7 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `attendance`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_att_emp_date` (`employee_id`,`att_date`);
+  ADD UNIQUE KEY `uq_attendance_emp_date` (`employee_id`,`att_date`);
 
 --
 -- Indexes for table `departments`
@@ -251,8 +282,8 @@ ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_employees_user` (`user_id`),
   ADD UNIQUE KEY `uq_employees_code` (`emp_code`),
-  ADD KEY `idx_emp_dept` (`department_id`),
-  ADD KEY `idx_emp_desig` (`designation_id`);
+  ADD KEY `idx_employees_department` (`department_id`),
+  ADD KEY `idx_employees_designation` (`designation_id`);
 
 --
 -- Indexes for table `holidays`
@@ -266,15 +297,17 @@ ALTER TABLE `holidays`
 --
 ALTER TABLE `leave_balances`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_balance` (`employee_id`,`leave_type_id`,`year`);
+  ADD UNIQUE KEY `uq_balance_emp_type_year` (`employee_id`,`leave_type_id`,`year`),
+  ADD KEY `idx_balance_leave_type` (`leave_type_id`);
 
 --
 -- Indexes for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_lr_emp` (`employee_id`),
-  ADD KEY `idx_lr_status` (`status`);
+  ADD KEY `idx_leave_employee` (`employee_id`),
+  ADD KEY `idx_leave_type` (`leave_type_id`),
+  ADD KEY `idx_leave_approved_by` (`approved_by`);
 
 --
 -- Indexes for table `leave_types`
@@ -288,7 +321,7 @@ ALTER TABLE `leave_types`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_notif_user_read` (`user_id`,`is_read`);
+  ADD KEY `idx_notifications_user` (`user_id`,`is_read`);
 
 --
 -- Indexes for table `payroll`
@@ -302,7 +335,7 @@ ALTER TABLE `payroll`
 --
 ALTER TABLE `salary_structures`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `uq_salary_emp` (`employee_id`);
+  ADD UNIQUE KEY `uq_salary_employee` (`employee_id`);
 
 --
 -- Indexes for table `users`
@@ -385,7 +418,58 @@ ALTER TABLE `salary_structures`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `fk_attendance_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `fk_employees_department` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_employees_designation` FOREIGN KEY (`designation_id`) REFERENCES `designations` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `leave_balances`
+--
+ALTER TABLE `leave_balances`
+  ADD CONSTRAINT `fk_balance_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_balance_leave_type` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD CONSTRAINT `fk_leave_approved_by` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_leave_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_leave_type` FOREIGN KEY (`leave_type_id`) REFERENCES `leave_types` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `fk_notifications_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `payroll`
+--
+ALTER TABLE `payroll`
+  ADD CONSTRAINT `fk_payroll_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `salary_structures`
+--
+ALTER TABLE `salary_structures`
+  ADD CONSTRAINT `fk_salary_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
