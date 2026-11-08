@@ -1,6 +1,18 @@
 <?php 
+session_start();
 
    $error = "";
+
+   if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == 'admin') {
+        header("Location: admin/admin_dashboard.php");
+    } else if ($_SESSION['role'] == 'hr') {
+        header("Location: hr/hr_dashboard.php");
+    } else if ($_SESSION['role'] == 'employee') {
+        header("Location: employee/employee_dashboard.php");
+    }
+    exit;
+    } 
 
    if($_SERVER['REQUEST_METHOD'] == "POST"){
       extract($_POST);
@@ -12,7 +24,6 @@
 
       if($result -> num_rows > 0){
         $row = $result -> fetch_assoc();
-        session_start();
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $row['name'];
         $_SESSION['role'] = $row['role'];

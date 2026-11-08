@@ -14,18 +14,18 @@
 <body>
     <div class="app-shell">
         <?php 
-            include_once('includes/sidebar.php')
+            include_once('includes/sidebar.php');
         ?>
 
         <main class="main-content">
             <?php 
-                include_once('includes/topbar.php')
+                include_once('includes/topbar.php');
             ?> 
 
             <div class="dashboard-content">
                 <h1>HR PAGE</h1>
 
-                <?php include_once("includes/footer.php") ?>
+                <?php include_once("includes/footer.php"); ?>
             </div>
         </main>
     </div>

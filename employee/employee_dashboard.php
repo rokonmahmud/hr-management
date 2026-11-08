@@ -1,24 +1,43 @@
-            
-            <header class="topbar">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn sidebar-toggle d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar" aria-controls="adminSidebar" aria-label="Open navigation">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                    </button>
-                    <div class="breadcrumb-line"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong>Overview</strong></div>
-                </div>
-                <div class="topbar-actions">
-                    <span class="today-label">Wednesday, November 4, 2026</span>
-                    <button class="icon-button notification-button" type="button" aria-label="Notifications">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-2.5 7-2.5 9h17C20.5 16 18 16 18 9ZM10 21h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        <span class="notification-dot"></span>
-                    </button>
-                    <div class="dropdown">
-                    <button class="topbar-avatar border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Profile menu">
-                        AMA
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item text-danger" href="../logout.php">Logout</a></li>
-                    </ul>
-                </div>
-                </div>
-            </header>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Admin dashboard | PeopleDesk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body>
+    <div class="app-shell">
+        <?php 
+            include_once('includes/sidebar.php');
+        ?>
+
+        <main class="main-content">
+            <?php 
+                include_once('includes/topbar.php');
+            ?> 
+
+            <div class="dashboard-content">
+                <h1>Employee PAGE</h1>
+
+                <?php include_once("includes/footer.php"); ?>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('#adminSidebar .nav-link[href^="#"]').forEach((link) => {
+            link.addEventListener('click', () => {
+                if (window.matchMedia('(max-width: 991.98px)').matches) {
+                    bootstrap.Offcanvas.getInstance(document.getElementById('adminSidebar'))?.hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
