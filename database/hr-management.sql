@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 07, 2026 at 05:43 PM
+-- Generation Time: Nov 08, 2026 at 08:21 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -59,7 +59,8 @@ INSERT INTO `departments` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'IT', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
 (2, 'Sales', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
 (3, 'HR', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
-(4, 'Accounts', '2026-11-05 19:42:02', '2026-11-05 19:42:02');
+(4, 'Accounts', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(5, 'Marketing', '2026-11-08 20:13:44', '2026-11-08 20:13:44');
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,8 @@ INSERT INTO `designations` (`id`, `title`, `created_at`, `updated_at`) VALUES
 (1, 'Manager', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
 (2, 'Senior Developer', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
 (3, 'Junior PHP Developer', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
-(4, 'Executive', '2026-11-05 19:42:02', '2026-11-05 19:42:02');
+(4, 'Executive', '2026-11-05 19:42:02', '2026-11-05 19:42:02'),
+(5, 'DevOps Developer', '2026-11-08 20:13:13', '2026-11-08 20:13:13');
 
 -- --------------------------------------------------------
 
@@ -102,6 +104,13 @@ CREATE TABLE `employees` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`id`, `user_id`, `department_id`, `designation_id`, `emp_code`, `phone`, `join_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 4, 5, 5, '2275', '+8801753031073', '2026-11-11', 'active', '2026-11-08 20:19:57', '2026-11-08 20:19:57');
 
 -- --------------------------------------------------------
 
@@ -249,7 +258,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 'active', '2026-11-05 20:03:20', '2026-11-07 17:24:02'),
 (2, 'emp', 'employee@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee', 'active', '2026-11-07 14:14:41', '2026-11-07 17:24:26'),
-(3, 'hr', 'hr@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'hr', 'active', '2026-11-07 17:29:08', '2026-11-07 17:29:08');
+(3, 'hr', 'hr@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'hr', 'active', '2026-11-07 17:29:08', '2026-11-07 17:29:08'),
+(4, 'Rokon Mahmud', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee', 'active', '2026-11-08 20:19:57', '2026-11-08 20:19:57');
 
 --
 -- Indexes for dumped tables
@@ -358,19 +368,19 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `designations`
 --
 ALTER TABLE `designations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `holidays`
@@ -418,7 +428,7 @@ ALTER TABLE `salary_structures`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
