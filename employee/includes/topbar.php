@@ -12,6 +12,13 @@
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-2.5 7-2.5 9h17C20.5 16 18 16 18 9ZM10 21h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         <span class="notification-dot"></span>
                     </button>
-                    <span class="topbar-avatar">AM</span>
+                    <div class="dropdown">
+                    <button class="topbar-avatar border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Profile menu">
+                        AMA
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+                    </ul>
+                </div>
                 </div>
             </header>

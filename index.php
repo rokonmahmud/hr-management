@@ -19,15 +19,15 @@
 
         if($row['role'] == 'admin'){
             $_SESSION['url'] = "admin/index.php";
-            header("Location: admin/index.php");
+            header("Location: admin/admin_dashboard.php");
             exit;
         }elseif($row['role'] == 'employee'){
             $_SESSION['url'] = "employee/index.php";
-            header("Location: employee/index.php");
+            header("Location: employee/employee_dashboard.php");
             exit;
         }elseif($row['role'] == 'hr'){
             $_SESSION['url'] = "hr/index.php";
-            header("Location: hr/index.php");
+            header("Location: hr/hr_dashboard.php");
             exit;
         }
       }else{
