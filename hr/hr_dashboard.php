@@ -23,10 +23,124 @@
             ?> 
 
             <div class="dashboard-content">
-                <h1>HR PAGE</h1>
+                <section class="welcome-row">
+                    <div>
+                        <span class="welcome-kicker">HR OPERATIONS</span>
+                        <h1>Good morning, <?php echo htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8'); ?> <span aria-hidden="true">✦</span></h1>
+                        <p>Here’s a clean snapshot of your workforce and people priorities.</p>
+                    </div>
+                    <a class="btn btn-primary add-employee-button" href="#leave-requests">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        Review requests
+                    </a>
+                </section>
+
+                <section class="row g-3 stat-grid" aria-label="HR overview">
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <article class="card stat-card h-100">
+                            <div class="stat-top"><span class="stat-icon people-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 5.2a3.2 3.2 0 0 1 0 6.1M17 14a5.2 5.2 0 0 1 3.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="stat-menu">···</span></div>
+                            <span class="stat-label">Team size</span>
+                            <div class="stat-value-row"><strong>48</strong><span class="trend positive">↗ 8.2%</span></div>
+                            <span class="stat-footnote">vs. last month</span>
+                        </article>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <article class="card stat-card h-100">
+                            <div class="stat-top"><span class="stat-icon attendance-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="stat-menu">···</span></div>
+                            <span class="stat-label">Present today</span>
+                            <div class="stat-value-row"><strong>42</strong><span class="trend positive">87.5%</span></div>
+                            <span class="stat-footnote">of team is at work</span>
+                        </article>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <article class="card stat-card h-100">
+                            <div class="stat-top"><span class="stat-icon leave-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="stat-menu">···</span></div>
+                            <span class="stat-label">On leave</span>
+                            <div class="stat-value-row"><strong>4</strong><span class="trend neutral">Today</span></div>
+                            <span class="stat-footnote">2 returning this week</span>
+                        </article>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-3">
+                        <article class="card stat-card h-100">
+                            <div class="stat-top"><span class="stat-icon payroll-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M7.5 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="stat-menu">···</span></div>
+                            <span class="stat-label">Payroll this month</span>
+                            <div class="stat-value-row"><strong class="currency-value">৳ 8.4L</strong><span class="trend neutral">October</span></div>
+                            <span class="stat-footnote">for 48 employees</span>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="row g-3 dashboard-row">
+                    <div class="col-12 col-xl-8" id="attendance">
+                        <article class="card dashboard-card attendance-card h-100">
+                            <div class="card-heading">
+                                <div><h2>Attendance overview</h2><p>A look at your team's attendance this week.</p></div>
+                                <button class="btn btn-sm dropdown-button" type="button">This week <span aria-hidden="true">⌄</span></button>
+                            </div>
+                            <div class="chart-legend">
+                                <span><i class="legend-dot present-dot"></i>Present</span>
+                                <span><i class="legend-dot absent-dot"></i>Absent</span>
+                                <span><i class="legend-dot leave-dot"></i>On leave</span>
+                            </div>
+                            <div class="attendance-chart" role="img" aria-label="Bar chart showing attendance Monday through Sunday, with the highest attendance on Friday">
+                                <div class="chart-grid-lines"><span>50</span><span>40</span><span>30</span><span>20</span><span>10</span></div>
+                                <div class="chart-columns">
+                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 67%"></i><i class="bar-absent" style="height: 8%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Mon</span></div>
+                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 74%"></i><i class="bar-absent" style="height: 6%"></i><i class="bar-leave" style="height: 8%"></i></div><span>Tue</span></div>
+                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 70%"></i><i class="bar-absent" style="height: 8%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Wed</span></div>
+                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 79%"></i><i class="bar-absent" style="height: 5%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Thu</span></div>
+                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 84%"></i><i class="bar-absent" style="height: 4%"></i><i class="bar-leave" style="height: 6%"></i></div><span>Fri</span></div>
+                                    <div class="chart-column"><div class="bar-stack weekend-bars"><i class="bar-present" style="height: 32%"></i><i class="bar-absent" style="height: 12%"></i><i class="bar-leave" style="height: 4%"></i></div><span>Sat</span></div>
+                                    <div class="chart-column"><div class="bar-stack weekend-bars"><i class="bar-present" style="height: 28%"></i><i class="bar-absent" style="height: 18%"></i><i class="bar-leave" style="height: 5%"></i></div><span>Sun</span></div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-12 col-xl-4" id="leave-requests">
+                        <article class="card dashboard-card department-card h-100">
+                            <div class="card-heading">
+                                <div><h2>Leave requests</h2><p>Pending approval.</p></div>
+                                <a class="text-action" href="#">View all</a>
+                            </div>
+                            <div class="leave-list">
+                                <div class="leave-item">
+                                    <span class="employee-avatar avatar-peach">AJ</span>
+                                    <div class="leave-person">
+                                        <strong>Alex Johnson</strong>
+                                        <small>Annual leave · 3 days</small>
+                                    </div>
+                                    <span class="leave-duration">Today</span>
+                                </div>
+                                <div class="leave-item">
+                                    <span class="employee-avatar avatar-lavender">FM</span>
+                                    <div class="leave-person">
+                                        <strong>Freya Martin</strong>
+                                        <small>Sick leave · 1 day</small>
+                                    </div>
+                                    <span class="leave-duration">Tue</span>
+                                </div>
+                                <div class="leave-item">
+                                    <span class="employee-avatar avatar-blue">SK</span>
+                                    <div class="leave-person">
+                                        <strong>Sofia Khan</strong>
+                                        <small>Study leave · 2 days</small>
+                                    </div>
+                                    <span class="leave-duration">Thu</span>
+                                </div>
+                            </div>
+                            <a class="review-link" href="#">Review queue <span aria-hidden="true">→</span></a>
+                        </article>
+                    </div>
+                </section>
+
+                <div class="dashboard-footer">
+                    <span>Updated 8 minutes ago</span>
+                    <span>PeopleDesk HR overview</span>
+                </div>
 
                 <?php include_once("includes/footer.php"); ?>
             </div>
+
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
