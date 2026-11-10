@@ -5,15 +5,21 @@
         $name = $_POST['name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-        $password = $_POST['password'];
-        $emp_code = $_POST['emp_code'];
+        $temporary_password = md5($_POST['temporary_password']);
         $designation = $_POST['designation'];
         $department = $_POST['department'];
-        $status = $_POST['status'];
-        $join_date = $_POST['join_date'];
+        $joining_date = $_POST['joining_date'];
+        $basic_salary = $_POST['basic_salary'];
+        $role = $_POST['role'];
 
-        include_once("./config/db.php");
-        $conn->query("INSERT INTO employees(id, user_id, department_id , designation_id, emp_code, phone, join_date, $status ) ");
+        include_once(__DIR__ . "/../config/db.php");
+        $conn -> query("INSERT INTO employees(employee_id, name, email, 	temporary_password, department, designation, basic_salary, joining_date, role, phone)VALUE (NULL, '$name', '$email', '$temporary_password','$department','$designation', '$basic_salary', '$joining_date', '$role','$phone')");
+
+        if($conn -> affected_rows){
+            header('Location: employeePage.php');
+            exit;
+        };
+
 
 
     }
@@ -45,12 +51,6 @@
                 include_once('includes/topbar.php')
             ?> 
 
-              <div class="app-shell">
-        <!-- sidebar include goes here -->
- 
-        <main class="main-content">
-            <!-- topbar include goes here -->
- 
             <div class="dashboard-content">
                 <div class="d-flex flex-column flex-sm-row align-items-sm-end justify-content-between gap-3 mb-4">
                     <div>
@@ -74,26 +74,35 @@
                                 </span>
                                 <div>
                                     <h2 class="h5 fw-bold mb-1" id="personal-info-heading">Personal information</h2>
-                                    <p class="small text-secondary mb-0">Basic contact details for this employee.</p>
+                                    <p class="small text-secondary mb-0">Contact and login details for this employee.</p>
                                 </div>
                             </div>
  
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold" for="name">Full name <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" id="name" name="name" maxlength="100" placeholder="e.g. Alex Morgan" autocomplete="name" required>
+                                    <input class="form-control" type="text" id="name" name="name" maxlength="150" placeholder="e.g. Alex Morgan" autocomplete="name" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold" for="email">Work email <span class="text-danger">*</span></label>
                                     <input class="form-control" type="email" id="email" name="email" maxlength="150" placeholder="alex@company.com" autocomplete="email" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" for="phone">Phone number</label>
-                                    <input class="form-control" type="tel" id="phone" name="phone" maxlength="20" placeholder="+1 (555) 000-0000" autocomplete="tel">
+                                    <label class="form-label fw-semibold" for="phone">Phone number <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="tel" id="phone" name="phone" maxlength="15" pattern="[0-9+]{7,15}" placeholder="e.g. 01712345678" autocomplete="tel" required>
+                                    <div class="form-text">Digits only (optionally starting with +), max 15 characters.</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" for="password">Temporary password <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="password" id="password" name="password" minlength="5" placeholder="Enter a temporary password" autocomplete="new-password" required>
+                                    <label class="form-label fw-semibold" for="role">Role <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="role" name="role" required>
+                                        <option value="employee" selected>Employee</option>
+                                        <option value="hr">HR</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="temporary_password">Temporary password <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="password" id="temporary_password" name="temporary_password" minlength="5" placeholder="Enter a temporary password" autocomplete="new-password" required>
                                     <div class="form-text">Share the initial password with the employee securely.</div>
                                 </div>
                             </div>
@@ -108,39 +117,26 @@
                                 </span>
                                 <div>
                                     <h2 class="h5 fw-bold mb-1" id="employment-heading">Employment details</h2>
-                                    <p class="small text-secondary mb-0">Role and start-date information.</p>
+                                    <p class="small text-secondary mb-0">Role, salary and start-date information.</p>
                                 </div>
                             </div>
  
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" for="emp_code">Employee ID <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="text" id="emp_code" name="emp_code" maxlength="20" placeholder="e.g. EMP-001" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-semibold" for="join_date">Joining date <span class="text-danger">*</span></label>
-                                    <input class="form-control" type="date" id="join_date" name="join_date" required>
-                                </div>
-                                <div class="col-md-6">
                                     <label class="form-label fw-semibold" for="department">Department <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="department" name="department" required>
-                                        <option value="" disabled selected>Select department</option>
-                                        <!-- department options go here -->
-                                    </select>
+                                    <input class="form-control" type="text" id="department" name="department" maxlength="100" placeholder="e.g. Human Resources" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold" for="designation">Designation <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="designation" name="designation" required>
-                                        <option value="" disabled selected>Select designation</option>
-                                        <!-- designation options go here -->
-                                    </select>
+                                    <input class="form-control" type="text" id="designation" name="designation" maxlength="150" placeholder="e.g. Software Engineer" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold" for="status">Status</label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="active" selected>Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
+                                    <label class="form-label fw-semibold" for="basic_salary">Basic salary <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="number" id="basic_salary" name="basic_salary" min="0" max="9999999999" step="1" placeholder="e.g. 25000" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold" for="joining_date">Joining date <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="date" id="joining_date" name="joining_date" required>
                                 </div>
                             </div>
                         </section>
@@ -157,7 +153,6 @@
             <?php include_once("includes/footer.php") ?>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.querySelectorAll('#adminSidebar .nav-link[href^="#"]').forEach((link) => {
