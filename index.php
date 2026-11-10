@@ -19,7 +19,7 @@ session_start();
       
       $hashPass = md5($password);
       
-      include_once("config/db.php");
+      include_once(__DIR__ . "/../config/db.php");
       $result = $conn -> query("SELECT * FROM users WHERE email ='$email' AND password = '$hashPass'");
 
       if($result -> num_rows > 0){
