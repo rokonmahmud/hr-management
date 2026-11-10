@@ -1,9 +1,9 @@
-<?php 
+<?php
 session_start();
 
-   $error = "";
+$error = "";
 
-   if (isset($_SESSION['role'])) {
+if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] == 'admin') {
         header("Location: admin/admin_dashboard.php");
     } else if ($_SESSION['role'] == 'hr') {
@@ -11,47 +11,46 @@ session_start();
     } else if ($_SESSION['role'] == 'employee') {
         header("Location: employee/employee_dashboard.php");
     }
-    exit;
-    } 
+}
 
-   if($_SERVER['REQUEST_METHOD'] == "POST"){
-      extract($_POST);
-      
-      $hashPass = md5($password);
-      
-      include_once(__DIR__ . "/../config/db.php");
-      $result = $conn -> query("SELECT * FROM users WHERE email ='$email' AND password = '$hashPass'");
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    extract($_POST);
 
-      if($result -> num_rows > 0){
-        $row = $result -> fetch_assoc();
+    $hashPass = md5($password);
+
+    include_once("config/db.php");
+    $result = $conn->query("SELECT * FROM users WHERE email ='$email' AND password = '$hashPass'");
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $row['name'];
         $_SESSION['role'] = $row['role'];
 
-        if($row['role'] == 'admin'){
+        if ($row['role'] == 'admin') {
             $_SESSION['url'] = "admin/index.php";
             header("Location: admin/admin_dashboard.php");
             exit;
-        }elseif($row['role'] == 'employee'){
+        } elseif ($row['role'] == 'employee') {
             $_SESSION['url'] = "employee/index.php";
             header("Location: employee/employee_dashboard.php");
             exit;
-        }elseif($row['role'] == 'hr'){
+        } elseif ($row['role'] == 'hr') {
             $_SESSION['url'] = "hr/index.php";
             header("Location: hr/hr_dashboard.php");
             exit;
         }
-      }else{
+    } else {
         $error = "Email or password is wrong.";
-      }
-      
-   }
+    }
+}
 
 ?>
 
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,6 +62,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/auth.css">
 </head>
+
 <body>
 
     <main class="auth-layout container-fluid vh-100 min-vh-100 overflow-hidden p-0">
@@ -71,8 +71,8 @@ session_start();
                 <a class="brand d-inline-flex align-items-center gap-2" href="../index.php" aria-label="PeopleDesk home">
                     <span class="brand-mark d-grid place-items-center" aria-hidden="true">
                         <svg viewBox="0 0 32 32" fill="none">
-                            <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-                            <path d="m11.5 16.3 3.1 3.1 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                            <path d="m11.5 16.3 3.1 3.1 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
                     <span>people<span class="brand-light">desk</span></span>
@@ -113,8 +113,8 @@ session_start();
                     <a class="mobile-brand d-inline-flex align-items-center gap-2" href="../index.php" aria-label="PeopleDesk home">
                         <span class="brand-mark d-grid place-items-center" aria-hidden="true">
                             <svg viewBox="0 0 32 32" fill="none">
-                                <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-                                <path d="m11.5 16.3 3.1 3.1 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" />
+                                <path d="m11.5 16.3 3.1 3.1 6-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </span>
                         <span>people<span class="brand-light">desk</span></span>
@@ -130,7 +130,10 @@ session_start();
                             <label class="form-label" for="email">Work email</label>
                             <div class="input-group">
                                 <span class="input-group-text" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="14" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="m5 7 7 5.5L19 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <rect x="3.5" y="5" width="17" height="14" rx="3" stroke="currentColor" stroke-width="1.7" />
+                                        <path d="m5 7 7 5.5L19 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </span>
                                 <input class="form-control" id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
                             </div>
@@ -143,7 +146,11 @@ session_start();
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10" width="15" height="11" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 14.5v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <rect x="4.5" y="10" width="15" height="11" rx="2.5" stroke="currentColor" stroke-width="1.7" />
+                                        <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                        <path d="M12 14.5v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    </svg>
                                 </span>
                                 <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
                             </div>
@@ -159,7 +166,10 @@ session_start();
 
                     <p class="form-switch">New to PeopleDesk? <a href="signup.php">Create an account</a></p>
                     <p class="secure-note d-flex align-items-center justify-content-center gap-1">
-                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.8 13 4v3.7c0 3.1-2.1 5.4-5 6.5-2.9-1.1-5-3.4-5-6.5V4l5-2.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="m5.8 7.8 1.5 1.5 2.9-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M8 1.8 13 4v3.7c0 3.1-2.1 5.4-5 6.5-2.9-1.1-5-3.4-5-6.5V4l5-2.2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+                            <path d="m5.8 7.8 1.5 1.5 2.9-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                         Your information is private and secure
                     </p>
                 </div>
@@ -169,12 +179,13 @@ session_start();
             </section>
         </div>
     </main>
-    <?php 
+    <?php
 
-        if($error != ""){
-            echo "<script>alert('$error');</script>";
-        }
-    
+    if ($error != "") {
+        echo "<script>alert('$error');</script>";
+    }
+
     ?>
 </body>
+
 </html>
