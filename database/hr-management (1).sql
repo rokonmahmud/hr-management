@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 10, 2026 at 06:35 AM
+-- Generation Time: Nov 11, 2026 at 07:04 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.33
 
@@ -37,24 +37,37 @@ CREATE TABLE `employees` (
   `basic_salary` decimal(10,0) NOT NULL,
   `joining_date` date NOT NULL,
   `role` enum('admin','hr','employee','') NOT NULL,
-  `phone` varchar(15) NOT NULL
+  `phone` varchar(15) NOT NULL,
+  `user_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `name`, `email`, `temporary_password`, `department`, `designation`, `basic_salary`, `joining_date`, `role`, `phone`) VALUES
-(1, 'yeasin', 'yeasin@gmail.com', '268e27056a3e52cf3755d193cbeb0594', 'Accounts', 'Ass. Accounts', 25000, '2026-11-10', 'employee', ''),
-(4, 'Rokon Mahmud', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Computer', 'Teaching Associate', 45000, '2026-11-10', 'employee', '+8801753031073');
+INSERT INTO `employees` (`employee_id`, `name`, `email`, `temporary_password`, `department`, `designation`, `basic_salary`, `joining_date`, `role`, `phone`, `user_id`) VALUES
+(7, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 'admin', 50000, '2026-11-01', 'admin', '01753031073', 7),
+(8, 'yeasin', 'yeasin@gmail.com', '1f32aa4c9a1d2ea010adcf2348166a04', 'Accounts', 'Ass. Accounts', 30000, '2026-11-01', 'employee', '+8801753031073', 8),
+(9, 'rokon uddin', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Accounts', 'Ass. Accounts', 25000, '2026-11-01', 'employee', '+8801753031073', 9);
 
 --
 -- Triggers `employees`
 --
 DELIMITER $$
-CREATE TRIGGER `after_employee_insert` AFTER INSERT ON `employees` FOR EACH ROW BEGIN
+CREATE TRIGGER `after_employee_insert` BEFORE INSERT ON `employees` FOR EACH ROW BEGIN
     INSERT INTO users (name, email, password, role)
     VALUES (NEW.name, NEW.email, NEW.temporary_password, NEW.role);
+
+    SET NEW.user_id = LAST_INSERT_ID();
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_user` AFTER UPDATE ON `employees` FOR EACH ROW BEGIN
+	IF NEW.user_id IS NOT NULL THEN UPDATE users 
+    SET name = NEW.name,  
+    	email = COALESCE(NEW.email, email) WHERE user_id = NEW.user_id;
+        END IF;
 END
 $$
 DELIMITER ;
@@ -78,11 +91,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin'),
-(2, 'yeasin', 'yeasin@gmail.com', '268e27056a3e52cf3755d193cbeb0594', 'employee'),
-(3, 'Rokon Mahmud', 'rokonudden6969@gmail.com', '12345', 'employee'),
-(4, 'Mahir', 'mahir@gmail.com', '12345', 'employee'),
-(5, 'Rokon Mahmud', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee');
+(7, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin'),
+(8, 'yeasin', 'yeasin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee'),
+(9, 'rokon uddin', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee');
 
 --
 -- Indexes for dumped tables
@@ -92,7 +103,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `role`) VALUES
 -- Indexes for table `employees`
 --
 ALTER TABLE `employees`
-  ADD PRIMARY KEY (`employee_id`);
+  ADD PRIMARY KEY (`employee_id`),
+  ADD KEY `fk_employees_user` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -108,13 +120,23 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

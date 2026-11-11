@@ -93,7 +93,9 @@ include_once(__DIR__ . "/../config/db.php");
                                                 <td><?php echo $employees['designation'] ?></td>
                                                 <td><span class="badge rounded-pill bg-success-subtle text-success-emphasis px-3 py-2">&#9679; Active</span></td>
                                                 <td class="text-end pe-4 text-nowrap">
-                                                    <a class="btn btn-sm btn-outline-success" href="#" aria-label="Edit employee"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L19 9l-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></a>
+
+                                                    <a class="btn btn-sm btn-outline-success" href="editEmployee.php?employee_id=<?php echo $employees['employee_id'] ?>" aria-label="Edit employee"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20h4L19 9l-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></a>
+
                                                     <a class="btn btn-sm btn-outline-danger" href="#" aria-label="Delete employee"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 11v6M14 11v6M6.5 7l1 12h9l1-12M9.5 7V5h5v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                                                 </td>
                                             </tr>
