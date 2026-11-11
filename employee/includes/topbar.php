@@ -1,6 +1,8 @@
             
 <?php
 $userName = $_SESSION['name'] ?? 'Employee';
+$isLeavePage = in_array(basename($_SERVER['PHP_SELF'] ?? ''), ['applyLeave.php', 'leave_request.php'], true);
+$logoutPath = $isLeavePage ? '../../logout.php' : '../logout.php';
 $userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));
 if ($userInitials === '') {
     $userInitials = 'EM';
@@ -12,7 +14,7 @@ if ($userInitials === '') {
         <button class="btn sidebar-toggle d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar" aria-controls="adminSidebar" aria-label="Open navigation">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
-        <div class="breadcrumb-line"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong>Overview</strong></div>
+        <div class="breadcrumb-line"><span>Workspace</span><span class="breadcrumb-slash">/</span><strong><?php echo htmlspecialchars($pageTitle ?? 'Overview', ENT_QUOTES, 'UTF-8'); ?></strong></div>
     </div>
     <div class="topbar-actions">
         <span class="today-label"><?php echo date('l, F j, Y'); ?></span>
@@ -25,7 +27,7 @@ if ($userInitials === '') {
                 <?php echo htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8'); ?>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item text-danger" href="../logout.php">Logout</a></li>
+                <li><a class="dropdown-item text-danger" href="<?php echo $logoutPath; ?>">Logout</a></li>
             </ul>
         </div>
     </div>

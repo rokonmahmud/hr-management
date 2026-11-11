@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 11, 2026 at 07:04 AM
+-- Generation Time: Nov 11, 2026 at 07:10 PM
 -- Server version: 8.4.3
--- PHP Version: 8.3.33
+-- PHP Version: 8.3.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,7 +47,7 @@ CREATE TABLE `employees` (
 
 INSERT INTO `employees` (`employee_id`, `name`, `email`, `temporary_password`, `department`, `designation`, `basic_salary`, `joining_date`, `role`, `phone`, `user_id`) VALUES
 (7, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin', 'admin', 50000, '2026-11-01', 'admin', '01753031073', 7),
-(8, 'yeasin', 'yeasin@gmail.com', '1f32aa4c9a1d2ea010adcf2348166a04', 'Accounts', 'Ass. Accounts', 30000, '2026-11-01', 'employee', '+8801753031073', 8),
+(8, 'employee', 'employee@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Accounts', 'Ass. Accounts', 30000, '2026-11-01', 'employee', '+8801753031073', 8),
 (9, 'rokon uddin', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Accounts', 'Ass. Accounts', 25000, '2026-11-01', 'employee', '+8801753031073', 9);
 
 --
@@ -75,6 +75,25 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `leave_requests`
+--
+
+CREATE TABLE `leave_requests` (
+  `leave_id` int NOT NULL,
+  `employee_id` int NOT NULL,
+  `leave_reason` varchar(200) NOT NULL,
+  `leave_type` varchar(50) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `total_days` int NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `approved_by` varchar(50) NOT NULL,
+  `admin_remarks` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -92,7 +111,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `role`) VALUES
 (7, 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'admin'),
-(8, 'yeasin', 'yeasin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee'),
+(8, 'employee', 'employee@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee'),
 (9, 'rokon uddin', 'rokonudden6969@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 'employee');
 
 --
@@ -105,6 +124,12 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `role`) VALUES
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`employee_id`),
   ADD KEY `fk_employees_user` (`user_id`);
+
+--
+-- Indexes for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD PRIMARY KEY (`leave_id`);
 
 --
 -- Indexes for table `users`
@@ -121,6 +146,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `employees`
   MODIFY `employee_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  MODIFY `leave_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`

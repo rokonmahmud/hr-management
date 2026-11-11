@@ -1,16 +1,8 @@
 
-<?php
-$currentPage = basename($_SERVER['PHP_SELF'] ?? 'employee_dashboard.php');
-$userName = $_SESSION['name'] ?? 'Employee';
-$userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));
-if ($userInitials === '') {
-    $userInitials = 'EM';
-}
-?>
 
 <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
     <div class="sidebar-header">
-        <a class="brand" href="../index.php" id="adminSidebarLabel">
+        <a class="brand" href="<?php echo $rootPath; ?>index.php" id="adminSidebarLabel">
             <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 32 32" fill="none">
                     <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
@@ -24,7 +16,7 @@ if ($userInitials === '') {
 
     <nav class="sidebar-nav" aria-label="Main navigation">
         <span class="nav-caption">WORKSPACE</span>
-        <a class="nav-link <?php echo $currentPage === 'employee_dashboard.php' ? 'active' : ''; ?>" href="employee_dashboard.php">
+        <a class="nav-link " href="employee_dashboard.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg>
             <span>Dashboard</span>
         </a>
@@ -32,9 +24,13 @@ if ($userInitials === '') {
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 14l2.2 2.2L16.5 11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>Attendance</span>
         </a>
-        <a class="nav-link" href="#time-off">
+        <a class="nav-link " href="leave_request.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Leave</span>
+        </a>
+        <a class="nav-link " href="applyLeave.php">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span>Apply for Leave</span>
         </a>
         <a class="nav-link" href="#payroll">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M7.5 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>

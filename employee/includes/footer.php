@@ -1,1 +1,1 @@
-<footer class="dashboard-footer"><span>PeopleDesk Admin</span><span>HR overview · Data shown for demonstration</span></footer>
+<footer class="dashboard-footer"><span>PeopleDesk Employee</span><span>Employee workspace · Data shown for demonstration</span></footer>
