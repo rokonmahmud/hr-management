@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 11, 2026 at 07:10 PM
+-- Generation Time: Nov 12, 2026 at 07:15 AM
 -- Server version: 8.4.3
--- PHP Version: 8.3.30
+-- PHP Version: 8.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -91,6 +91,14 @@ CREATE TABLE `leave_requests` (
   `admin_remarks` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `leave_requests`
+--
+
+INSERT INTO `leave_requests` (`leave_id`, `employee_id`, `leave_reason`, `leave_type`, `start_date`, `end_date`, `total_days`, `status`, `approved_by`, `admin_remarks`) VALUES
+(1, 8, 'dghfsj', 'annual', '2026-11-13', '2026-11-14', 2, 'Pending', 'Panding', ''),
+(2, 8, 'I am very sick', 'sick', '2026-11-13', '2026-11-14', 2, 'Pending', 'Panding', '');
+
 -- --------------------------------------------------------
 
 --
@@ -129,7 +137,8 @@ ALTER TABLE `employees`
 -- Indexes for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  ADD PRIMARY KEY (`leave_id`);
+  ADD PRIMARY KEY (`leave_id`),
+  ADD KEY `fk_leave_employee` (`employee_id`);
 
 --
 -- Indexes for table `users`
@@ -151,7 +160,7 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `leave_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `leave_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -168,6 +177,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_employees_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD CONSTRAINT `fk_leave_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

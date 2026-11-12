@@ -2,7 +2,7 @@
 
 <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
     <div class="sidebar-header">
-        <a class="brand" href="<?php echo $rootPath; ?>index.php" id="adminSidebarLabel">
+        <a class="brand" href="index.php" id="adminSidebarLabel">
             <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 32 32" fill="none">
                     <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
@@ -24,7 +24,7 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 14l2.2 2.2L16.5 11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>Attendance</span>
         </a>
-        <a class="nav-link " href="leave_request.php">
+        <a class="nav-link " href=" leave_request.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Leave</span>
         </a>
@@ -48,8 +48,8 @@
             <span>Settings</span>
         </a>
         <div class="profile-link">
-            <span class="profile-avatar"><?php echo htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8'); ?></span>
-            <span class="profile-details"><strong><?php echo htmlspecialchars($userName, ENT_QUOTES, 'UTF-8'); ?></strong><small>Employee</small></span>
+            <span class="profile-avatar"></span>
+            <span class="profile-details"><strong></strong><small>Employee</small></span>
             <span class="profile-menu" aria-hidden="true">···</span>
         </div>
     </div>

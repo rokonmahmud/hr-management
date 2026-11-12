@@ -27,6 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $_SESSION['name'] = $row['name'];
         $_SESSION['role'] = $row['role'];
 
+        // employee_id session e rakha
+        $empResult = $conn->query("SELECT employee_id FROM employees WHERE email = '$email'");
+        $emp = $empResult->fetch_assoc();
+        if ($emp) {
+            $_SESSION['employee_id'] = $emp['employee_id'];
+        }
+
         if ($row['role'] == 'admin') {
             $_SESSION['url'] = "admin/index.php";
             header("Location: admin/admin_dashboard.php");

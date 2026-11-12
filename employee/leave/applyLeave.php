@@ -1,26 +1,40 @@
 
-<?php 
+
+<?php
+
 
     session_start();
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $leaveType = $_POST['leave_type'];
         $startDate = $_POST['start_date'];
         $endDate = $_POST['end_date'];
-        $reason = $_POST['reason'];
+        $reason = $_POST['leave_reason'];
         $handoverNotes = $_POST['handover_notes'];
         $total_days = (new DateTime($startDate))->diff(new DateTime($endDate))->days + 1;
-        $employeeId = $_SESSION['employee_id'];
+        
 
         if (strtotime($endDate) < strtotime($startDate)) {
             $error = "End date cannot be before start date.";
         }
         
         $status = 'Pending';
-        $approved_by = NULL;
+        $approved_by = "Panding";
         $admin_remarks = NULL;
 
-        include_once('../../config/db.php');
-        $conn -> query("INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, total_days, reason, handover_notes, status, approved_by, admin_remarks) VALUES ($employeeId, '$leaveType', '$startDate', '$endDate', $total_days, '$reason', '$handoverNotes', '$status', $approved_by, $admin_remarks)");
+        include_once __DIR__ . '/../../config/db.php';
+
+       
+        // SELECT * FROM employees WHERE email = 'employee@gmail.com';
+        
+        $userEmail = $_SESSION['email'];
+        
+        $row = $conn -> query("SELECT * FROM employees WHERE email = '$userEmail'");
+        $result = $row -> fetch_assoc();
+        $employeeId = $result['employee_id'];
+        echo $employeeId;
+
+
+        $conn -> query("INSERT INTO leave_requests VALUES (NULL, '$employeeId','$reason', '$leaveType', '$startDate', '$endDate', '$total_days', '$status', '$approved_by', '$admin_remarks')");
 
         if ($conn -> affected_rows > 0) {
             header("Location: leave_request.php");
@@ -51,7 +65,8 @@
 
         <main class="main-content">
             <?php 
-                include_once('../includes/topbar.php')
+                include_once('../includes/topbar.php');
+                //  print_r($_SESSION);
             ?> 
 
             <div class="dashboard-content">
@@ -78,7 +93,7 @@
                             <p class="text-secondary small mb-0">Fields marked with <span class="text-danger">*</span> are required.</p>
                         </div>
 
-                        <form>
+                        <form method="post">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label fw-semibold" for="leave-type">Leave type <span class="text-danger">*</span></label>
@@ -103,7 +118,7 @@
 
                                 <div class="col-12">
                                     <label class="form-label fw-semibold" for="reason">Reason for leave <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="reason" name="reason" rows="4" placeholder="Add a short explanation for your request..." required></textarea>
+                                    <textarea class="form-control" id="reason" name="leave_reason" rows="4" placeholder="Add a short explanation for your request..." required></textarea>
                                 </div>
 
                                 <div class="col-12">
