@@ -46,9 +46,9 @@ $totalEmployee = $result -> num_rows;
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 14l2.2 2.2L16.5 11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>Attendance</span>
         </a>
-        <a class="nav-link" href="#leave-requests">
+        <a class="nav-link" href="<?php echo BASE_URL ?>/admin/leave_management/leave_management.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            <span>Leave requests</span>
+            <span>Leave Management</span>
             <span class="nav-count nav-count-alert">4</span>
         </a>
         <a class="nav-link" href="#payroll">
