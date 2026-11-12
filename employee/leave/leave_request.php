@@ -1,4 +1,14 @@
 <?php session_start();   ?>
+
+<?php 
+
+include_once __DIR__ . '/../../config/db.php';
+$empId = (int) $_SESSION['employee_id'];
+
+$data = $conn -> query("SELECT * FROM leave_requests WHERE employee_id = $empId ORDER BY leave_id DESC");
+
+$countData = $data -> num_rows;
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,7 +45,7 @@
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                     <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between px-4 py-3">
                         <h2 class="h6 fw-bold mb-0">All requests</h2>
-                        <span class="badge rounded-pill bg-success-subtle text-success-emphasis px-3 py-2">3 requests</span>
+                        <span class="badge rounded-pill bg-success-subtle text-success-emphasis px-3 py-2"><?php echo $countData; ?> Requests</span>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
@@ -54,10 +64,7 @@
                             </thead>
                                 <tbody>
                                     <?php
-                                        include_once __DIR__ . '/../../config/db.php';
-                                        $empId = (int) $_SESSION['employee_id'];
-
-                                        $data = $conn -> query("SELECT * FROM leave_requests WHERE employee_id = $empId ORDER BY leave_id DESC");
+                                       
 
                                         while ($leave = $data -> fetch_assoc()) {
                                             $badge = 'bg-warning-subtle text-warning-emphasis';

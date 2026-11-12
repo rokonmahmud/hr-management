@@ -1,5 +1,6 @@
 
 <?php
+include_once __DIR__ . '/../../config/config.php';
 $currentPage = basename($_SERVER['PHP_SELF'] ?? 'admin_dashboard.php');
 $userName = $_SESSION['name'] ?? 'Administrator';
 $userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));
@@ -7,14 +8,14 @@ if ($userInitials === '') {
     $userInitials = 'AD';
 }
 
-include_once(__DIR__ . "../../../config/db.php");
+include_once __DIR__ . '/../../config/db.php';
 $result = $conn -> query("SELECT * FROM employees;");
 $totalEmployee = $result -> num_rows;
 ?>
 
 <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
     <div class="sidebar-header">
-        <a class="brand" href="../index.php" id="adminSidebarLabel">
+        <a class="brand" href="<?= BASE_URL ?>/index.php" id="adminSidebarLabel">
             <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 32 32" fill="none">
                     <path d="M7 23.5V10.8l9-5.3 9 5.3v12.7l-9 5.3-9-5.3Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
@@ -28,16 +29,16 @@ $totalEmployee = $result -> num_rows;
 
     <nav class="sidebar-nav" aria-label="Main navigation">
         <span class="nav-caption">WORKSPACE</span>
-        <a class="nav-link <?php echo $currentPage === 'admin_dashboard.php' ? 'active' : ''; ?>" href="admin_dashboard.php">
+        <a class="nav-link <?php echo $currentPage === 'admin_dashboard.php' ? 'active' : ''; ?>" href="<?php echo BASE_URL ?>/admin/admin_dashboard.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg>
             <span>Dashboard</span>
         </a>
-        <a class="nav-link <?php echo $currentPage === 'employeePage.php' ? 'active' : ''; ?>" href="employeePage.php">
+        <a class="nav-link <?php echo $currentPage === 'employeePage.php' ? 'active' : ''; ?>" href="<?php echo BASE_URL ?>/admin/employee/employeePage.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 5.2a3.2 3.2 0 0 1 0 6.1M17 14a5.2 5.2 0 0 1 3.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Employees</span>
             <span class="nav-count"><?php echo $totalEmployee ?></span>
         </a>
-        <a class="nav-link <?php echo $currentPage === 'addEmployee.php' ? 'active' : ''; ?>" href="addEmployee.php">
+        <a class="nav-link <?php echo $currentPage === 'addEmployee.php' ? 'active' : ''; ?>" href="<?php echo BASE_URL ?>/admin/employee/addEmployee.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/></svg>
             <span>Add employee</span>
         </a>

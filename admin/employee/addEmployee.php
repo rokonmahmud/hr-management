@@ -12,7 +12,7 @@
         $basic_salary = $_POST['basic_salary'];
         $role = $_POST['role'];
 
-        include_once(__DIR__ . "/../config/db.php");
+        include_once __DIR__ . '/../../config/db.php';
         $conn -> query("INSERT INTO employees(employee_id, name, email, 	temporary_password, department, designation, basic_salary, joining_date, role, phone)VALUE (NULL, '$name', '$email', '$temporary_password','$department','$designation', '$basic_salary', '$joining_date', '$role','$phone')");
 
         if($conn -> affected_rows){
@@ -38,17 +38,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/admin.css">
+    <link rel="stylesheet" href="../../assets/admin.css">
 </head>
 <body>
     <div class="app-shell">
         <?php 
-            include_once('includes/sidebar.php')
+            include_once(__DIR__ . '/../includes/sidebar.php')
         ?>
 
         <main class="main-content">
             <?php 
-                include_once('includes/topbar.php')
+                include_once(__DIR__ . '/../includes/topbar.php')
             ?> 
 
             <div class="dashboard-content">
@@ -150,7 +150,7 @@
                 </form>
             </div>
            
-            <?php include_once("includes/footer.php") ?>
+            <?php include_once __DIR__ . '/../includes/footer.php'; ?>
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
