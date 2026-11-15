@@ -43,12 +43,12 @@
 <body>
     <div class="app-shell">
         <?php 
-            include_once(__DIR__ . '/../includes/sidebar.php')
+            include_once __DIR__ . '/../includes/sidebar.php';
         ?>
 
         <main class="main-content">
             <?php 
-                include_once(__DIR__ . '/../includes/topbar.php')
+                include_once __DIR__ . '/../includes/topbar.php';
             ?> 
 
             <div class="dashboard-content">

@@ -1,6 +1,6 @@
 
 <?php 
-include_once(__DIR__ . "/../../config/db.php");
+include_once __DIR__ . "/../../config/db.php";
 
 
 
@@ -26,12 +26,12 @@ include_once(__DIR__ . "/../../config/db.php");
 <body>
     <div class="app-shell">
         <?php 
-            include_once('../includes/sidebar.php')
+            include_once __DIR__ . '/../includes/sidebar.php';
         ?>
 
         <main class="main-content">
             <?php 
-                include_once('../includes/topbar.php')
+                include_once __DIR__ . '/../includes/topbar.php';
             ?> 
     <div class="app-shell">
         <!-- Sidebar goes here -->

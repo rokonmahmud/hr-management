@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/../../config/db.php");
+include_once __DIR__ . "/../../config/db.php";
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -87,10 +87,10 @@ $total = array_sum($counts);
 </head>
 <body>
     <div class="app-shell">
-        <?php include_once('../includes/sidebar.php'); ?>
+        <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
 
         <main class="main-content">
-            <?php include_once('../includes/topbar.php'); ?>
+            <?php include_once __DIR__ . '/../includes/topbar.php'; ?>
 
             <div class="dashboard-content">
 
