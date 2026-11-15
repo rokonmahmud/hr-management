@@ -21,7 +21,7 @@
         $approved_by = "Panding";
         $admin_remarks = NULL;
 
-        include_once __DIR__ . '/../../config/db.php';
+        include_once("../../config/db.php");
 
        
         // SELECT * FROM employees WHERE email = 'employee@gmail.com';

@@ -1,6 +1,5 @@
 
 <?php
-include_once __DIR__ . '/../../config/db.php';
 $currentPage = basename($_SERVER['PHP_SELF'] ?? 'admin_dashboard.php');
 $userName = $_SESSION['name'] ?? 'Administrator';
 $userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));

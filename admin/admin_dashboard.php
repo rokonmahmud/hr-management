@@ -6,7 +6,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     exit;
 }
 
-include_once __DIR__ . "/../config/db.php";
+include_once("../config/db.php");
 $result = $conn -> query("SELECT * FROM employees;");
 $totalEmployee = $result -> num_rows;
 
@@ -29,12 +29,12 @@ $totalEmployee = $result -> num_rows;
 <body>
     <div class="app-shell">
         <?php 
-            include_once __DIR__ . '/includes/sidebar.php';
+            include_once('includes/sidebar.php');
         ?>
 
         <main class="main-content">
             <?php 
-                include_once __DIR__ . '/includes/topbar.php';
+                include_once('includes/topbar.php');
             ?> 
 
             <div class="dashboard-content">
@@ -165,7 +165,7 @@ $totalEmployee = $result -> num_rows;
                     </div>
                 </section>
 
-                <?php include_once __DIR__ . "/includes/footer.php"; ?>
+                <?php include_once("includes/footer.php"); ?>
             </div>
         </main>
     </div>

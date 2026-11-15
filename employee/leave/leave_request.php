@@ -2,7 +2,7 @@
 
 <?php 
 
-include_once __DIR__ . '/../../config/db.php';
+include_once("../../config/db.php");
 $empId = (int) $_SESSION['employee_id'];
 
 $data = $conn -> query("SELECT * FROM leave_requests WHERE employee_id = $empId ORDER BY leave_id DESC");
