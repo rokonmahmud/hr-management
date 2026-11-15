@@ -1,7 +1,7 @@
 
 <?php 
     include_once("../../config/db.php");
-
+    /** @var mysqli $conn */
     
     $employeeId = $_GET['employee_id'];
     $data = $conn -> query("SELECT * FROM employees WHERE employee_id = $employeeId;");

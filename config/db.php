@@ -6,7 +6,7 @@
     $password = "";
     $db = "hr-management";
 
-    $conn = mysqli_connect($host, $user, $password, $db);
+    $conn = new mysqli($host, $user, $password, $db);
 
     if(!$conn){
         die("Database connection failed" . mysqli_connect_error());

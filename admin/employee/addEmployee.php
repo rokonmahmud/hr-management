@@ -2,7 +2,8 @@
 <?php 
 
     include_once("../../config/db.php");
-
+    /** @var mysqli $conn */
+    
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $name = $_POST['name'];
         $email = $_POST['email'];

@@ -1,5 +1,6 @@
 <?php
 session_start();
+/** @var mysqli $conn */
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     header("Location: ../index.php");

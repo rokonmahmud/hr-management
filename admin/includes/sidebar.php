@@ -1,12 +1,13 @@
 
 <?php
+/** @var mysqli $conn */
+
 $currentPage = basename($_SERVER['PHP_SELF'] ?? 'admin_dashboard.php');
 $userName = $_SESSION['name'] ?? 'Administrator';
 $userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));
 if ($userInitials === '') {
     $userInitials = 'AD';
 }
-
 $result = $conn->query("SELECT COUNT(*) AS total FROM employees");
 if ($result === false) {
     throw new RuntimeException('Unable to retrieve employee count: ' . $conn->error);

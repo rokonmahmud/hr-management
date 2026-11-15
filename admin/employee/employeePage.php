@@ -1,7 +1,7 @@
 
 <?php 
 include_once("../../config/db.php");
-
+/** @var mysqli $conn */
 
 
 ?>
