@@ -75,6 +75,25 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `attendance_id` int NOT NULL,
+  `employee_id` int NOT NULL,
+  `attendance_date` date NOT NULL,
+  `clock_in_time` datetime NOT NULL,
+  `clock_out_time` datetime DEFAULT NULL,
+  `clock_in_ip_address` varchar(45) NOT NULL,
+  `clock_out_ip_address` varchar(45) DEFAULT NULL,
+  `total_duration` time DEFAULT NULL,
+  `is_late` tinyint(1) NOT NULL DEFAULT 0,
+  `status` enum('Present','Completed') NOT NULL DEFAULT 'Present'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `leave_requests`
 --
 
@@ -141,6 +160,13 @@ ALTER TABLE `leave_requests`
   ADD KEY `fk_leave_employee` (`employee_id`);
 
 --
+-- Indexes for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD PRIMARY KEY (`attendance_id`),
+  ADD UNIQUE KEY `unique_employee_attendance_date` (`employee_id`,`attendance_date`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -163,6 +189,12 @@ ALTER TABLE `leave_requests`
   MODIFY `leave_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `attendance`
+--
+ALTER TABLE `attendance`
+  MODIFY `attendance_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -183,6 +215,12 @@ ALTER TABLE `employees`
 --
 ALTER TABLE `leave_requests`
   ADD CONSTRAINT `fk_leave_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `fk_attendance_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

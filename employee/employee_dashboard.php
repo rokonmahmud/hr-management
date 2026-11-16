@@ -30,7 +30,7 @@
                         <h1>Good morning, <?php echo htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8'); ?> <span aria-hidden="true">✦</span></h1>
                         <p>Your day-to-day overview is ready.</p>
                     </div>
-                    <a class="btn btn-primary add-employee-button" href="#attendance">
+                    <a class="btn btn-primary add-employee-button" href="attendance.php">
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
                         Submit timesheet
                     </a>

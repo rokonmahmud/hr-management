@@ -64,6 +64,7 @@ Everyone logs in from a single `users` table. The `role` column decides what the
 - Role-based login with PHP sessions
 - Employee profile management (add, search, update)
 - Daily check-in / check-out, with late check-ins marked automatically
+- Employee attendance history and admin attendance management (9:00 AM late cutoff)
 - Leave application, approval and automatic balance update
 - Automatic monthly payroll from attendance and leave
 - Printable payslips
@@ -152,7 +153,11 @@ draft  →  approved  →  paid
 |-------|----------------|-----------|
 | `attendance` | One row per employee per day: check-in, check-out, status | `employees` |
 
-Status values: `present`, `late`, `absent`, `on_leave`
+The attendance table also stores clock-in/out IP addresses, total duration, and
+whether the employee clocked in after 9:00 AM.
+
+Status values: `Present` (clocked in) and `Completed` (clocked out). Late
+arrivals are recorded separately in `is_late`.
 
 ### Group 4: Leave
 
