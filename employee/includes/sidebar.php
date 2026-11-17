@@ -32,7 +32,7 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Apply for Leave</span>
         </a>
-        <a class="nav-link" href="#payroll">
+        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF'] ?? '') === 'payroll_status.php' ? 'active' : ''; ?>" href="/hr-management/employee/payroll_status.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M7.5 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Payroll</span>
         </a>

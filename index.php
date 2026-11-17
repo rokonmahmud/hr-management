@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                         <path d="m5 7 7 5.5L19 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
-                                <input class="form-control" id="email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+                                <input class="form-control" id="email" name="email" type="email" value="admin@gmail.com" autocomplete="email" placeholder="you@company.com" required>
                             </div>
                         </div>
 
@@ -159,7 +159,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                         <path d="M12 14.5v2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
                                     </svg>
                                 </span>
-                                <input class="form-control" id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+                                <input class="form-control" id="password" name="password" type="password" autocomplete="current-password"  
+                                value="12345" placeholder="Enter your password" required>
                             </div>
                         </div>
 

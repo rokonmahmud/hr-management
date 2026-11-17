@@ -53,7 +53,7 @@ $totalEmployee = (int) $result->fetch_assoc()['total'];
             <span>Leave Management</span>
             <span class="nav-count nav-count-alert">4</span>
         </a>
-        <a class="nav-link" href="#payroll">
+        <a class="nav-link <?php echo $currentPage === 'payroll_management.php' ? 'active' : ''; ?>" href="/hr-management/admin/payroll/payroll_management.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M7.5 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Payroll</span>
         </a>

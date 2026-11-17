@@ -221,6 +221,23 @@ ALTER TABLE `leave_requests`
 --
 ALTER TABLE `attendance`
   ADD CONSTRAINT `fk_attendance_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Table structure for table `payroll`
+--
+
+CREATE TABLE `payroll` (
+  `payroll_id` int NOT NULL AUTO_INCREMENT,
+  `employee_id` int NOT NULL,
+  `payroll_month` date NOT NULL,
+  `salary` decimal(10,2) NOT NULL,
+  `status` enum('unpaid','paid') NOT NULL DEFAULT 'unpaid',
+  `paid_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`payroll_id`),
+  UNIQUE KEY `unique_employee_payroll_month` (`employee_id`,`payroll_month`),
+  CONSTRAINT `fk_payroll_employee` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
