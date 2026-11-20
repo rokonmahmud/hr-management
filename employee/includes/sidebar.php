@@ -1,5 +1,11 @@
 
-
+<?php
+$sidebarUserName = $_SESSION['name'] ?? 'Employee';
+$sidebarUserInitials = strtoupper(substr(preg_replace('/\s+/', '', $sidebarUserName), 0, 2));
+if ($sidebarUserInitials === '') {
+    $sidebarUserInitials = 'EM';
+}
+?>
 <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
     <div class="sidebar-header">
         <a class="brand" href="index.php" id="adminSidebarLabel">
@@ -36,7 +42,11 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M7.5 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Payroll</span>
         </a>
-        <a class="nav-link" href="#profile">
+        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF'] ?? '') === 'timesheet.php' ? 'active' : ''; ?>" href="/hr-management/employee/timesheet/timesheet.php">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v3M16.5 3v3M3.5 9h17M8 13h3M8 17h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span>Timesheet</span>
+        </a>
+        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF'] ?? '') === 'profile.php' ? 'active' : ''; ?>" href="/hr-management/employee/profile/profile.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Profile</span>
         </a>
@@ -48,8 +58,12 @@
             <span>Settings</span>
         </a>
         <div class="profile-link">
-            <span class="profile-avatar"></span>
-            <span class="profile-details"><strong></strong><small>Employee</small></span>
+            <?php if (!empty($_SESSION['profile_picture'])) { ?>
+                <img class="profile-avatar rounded-circle object-fit-cover" src="/hr-management/<?php echo htmlspecialchars($_SESSION['profile_picture'], ENT_QUOTES, 'UTF-8'); ?>" alt="Profile picture">
+            <?php } else { ?>
+                <span class="profile-avatar"><?php echo htmlspecialchars($sidebarUserInitials, ENT_QUOTES, 'UTF-8'); ?></span>
+            <?php } ?>
+            <span class="profile-details"><strong><?php echo htmlspecialchars($sidebarUserName, ENT_QUOTES, 'UTF-8'); ?></strong><small>Employee</small></span>
             <span class="profile-menu" aria-hidden="true">···</span>
         </div>
     </div>

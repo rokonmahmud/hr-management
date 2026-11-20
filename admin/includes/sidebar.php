@@ -48,6 +48,10 @@ $totalEmployee = (int) $result->fetch_assoc()['total'];
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17M8 14l2.2 2.2L16.5 11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>Attendance</span>
         </a>
+        <a class="nav-link <?php echo $currentPage === 'timesheet_management.php' ? 'active' : ''; ?>" href="/hr-management/admin/timesheet_management/timesheet_management.php">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v3M16.5 3v3M3.5 9h17M8 13h3M8 17h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span>Timesheets</span>
+        </a>
         <a class="nav-link" href="/hr-management/admin/leave_management/leave_management.php">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             <span>Leave Management</span>

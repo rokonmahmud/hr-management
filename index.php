@@ -28,10 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $_SESSION['role'] = $row['role'];
 
         // employee_id session e rakha
-        $empResult = $conn->query("SELECT employee_id FROM employees WHERE email = '$email'");
+        $empResult = $conn->query("SELECT employee_id, profile_picture FROM employees WHERE email = '$email'");
         $emp = $empResult->fetch_assoc();
         if ($emp) {
             $_SESSION['employee_id'] = $emp['employee_id'];
+            $_SESSION['profile_picture'] = $emp['profile_picture'] ?? '';
         }
 
         if ($row['role'] == 'admin') {

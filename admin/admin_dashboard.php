@@ -8,8 +8,75 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
 }
 
 include_once("../config/db.php");
-$result = $conn -> query("SELECT * FROM employees;");
-$totalEmployee = $result -> num_rows;
+$totalEmployee = (int) $conn->query(
+    "SELECT COUNT(*) AS total FROM employees WHERE role IN ('employee','hr')"
+)->fetch_assoc()['total'];
+
+$presentToday = (int) $conn->query(
+    "SELECT COUNT(DISTINCT employee_id) AS total FROM attendance WHERE attendance_date = CURDATE()"
+)->fetch_assoc()['total'];
+$presentPercent = $totalEmployee > 0 ? (int) round(($presentToday / $totalEmployee) * 100) : 0;
+
+$onLeaveToday = (int) $conn->query(
+    "SELECT COUNT(DISTINCT employee_id) AS total
+     FROM leave_requests
+     WHERE status = 'Approved' AND CURDATE() BETWEEN start_date AND end_date"
+)->fetch_assoc()['total'];
+
+$monthValue = date('Y-m-01');
+$payrollStmt = $conn->prepare(
+    "SELECT COUNT(*) AS total, COALESCE(SUM(salary), 0) AS amount
+     FROM payroll WHERE payroll_month = ?"
+);
+$payrollStmt->bind_param("s", $monthValue);
+$payrollStmt->execute();
+$payrollSummary = $payrollStmt->get_result()->fetch_assoc();
+$payrollTotal = (int) $payrollSummary['total'];
+$payrollAmount = (float) $payrollSummary['amount'];
+
+$pendingLeaveCount = (int) $conn->query(
+    "SELECT COUNT(*) AS total FROM leave_requests WHERE status = 'Pending'"
+)->fetch_assoc()['total'];
+$newEmployees = $conn->query(
+    "SELECT name, email, department, designation, joining_date
+     FROM employees
+     WHERE role IN ('employee','hr')
+     ORDER BY joining_date DESC, employee_id DESC
+     LIMIT 3"
+);
+$pendingLeaves = $conn->query(
+    "SELECT lr.*, e.name AS employee_name
+     FROM leave_requests lr
+     JOIN employees e ON e.employee_id = lr.employee_id
+     WHERE lr.status = 'Pending'
+     ORDER BY lr.leave_id DESC
+     LIMIT 3"
+);
+$departmentRows = $conn->query(
+     "SELECT department, COUNT(*) AS total
+      FROM employees
+      WHERE role IN ('employee','hr')
+      GROUP BY department
+      ORDER BY total DESC, department"
+)->fetch_all(MYSQLI_ASSOC);
+$departmentMax = count($departmentRows) > 0 ? (int) $departmentRows[0]['total'] : 1;
+
+$weekStart = date('Y-m-d', strtotime('monday this week'));
+$weeklyAttendance = [];
+for ($dayOffset = 0; $dayOffset < 7; $dayOffset++) {
+     $date = date('Y-m-d', strtotime($weekStart . ' +' . $dayOffset . ' days'));
+     $stmt = $conn->prepare(
+         "SELECT COUNT(DISTINCT employee_id) AS present
+          FROM attendance WHERE attendance_date = ?"
+     );
+     $stmt->bind_param("s", $date);
+     $stmt->execute();
+     $present = (int) $stmt->get_result()->fetch_assoc()['present'];
+     $weeklyAttendance[] = [
+         'label' => date('D', strtotime($date)),
+         'present' => $totalEmployee > 0 ? (int) round(($present / $totalEmployee) * 100) : 0,
+     ];
+}
 
 ?>
 
@@ -41,7 +108,7 @@ $totalEmployee = $result -> num_rows;
             <div class="dashboard-content">
                 <section class="welcome-row">
                     <div>
-                        <span class="welcome-kicker">WEDNESDAY, NOVEMBER 4, 2026</span>
+                        <span class="welcome-kicker"><?php echo strtoupper(date('l, F j, Y')); ?></span>
                         <h1>Good morning, <?php echo $_SESSION['name']; ?> <span aria-hidden="true">✦</span></h1>
                         <p>Here’s what’s happening with your team today.</p>
                     </div>
@@ -64,24 +131,24 @@ $totalEmployee = $result -> num_rows;
                         <article class="card stat-card h-100">
                             <div class="stat-top"><span class="stat-icon attendance-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="stat-menu">···</span></div>
                             <span class="stat-label">Present today</span>
-                            <div class="stat-value-row"><strong>42</strong><span class="trend positive">87.5%</span></div>
-                            <span class="stat-footnote">of your team is at work</span>
+                            <div class="stat-value-row"><strong><?php echo $presentToday; ?></strong><span class="trend positive"><?php echo $presentPercent; ?>%</span></div>
+                            <span class="stat-footnote">of your team is at work today</span>
                         </article>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-3">
                         <article class="card stat-card h-100">
                             <div class="stat-top"><span class="stat-icon leave-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12a1.5 1.5 0 0 1-1.5 1.5H7A2.5 2.5 0 0 1 4.5 19V6A2.5 2.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 4v5h5M8 13h8M8 16.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="stat-menu">···</span></div>
                             <span class="stat-label">On leave</span>
-                            <div class="stat-value-row"><strong>4</strong><span class="trend neutral">Today</span></div>
-                            <span class="stat-footnote">2 returning this week</span>
+                            <div class="stat-value-row"><strong><?php echo $onLeaveToday; ?></strong><span class="trend neutral">Today</span></div>
+                            <span class="stat-footnote">approved leaves currently active</span>
                         </article>
                     </div>
                     <div class="col-12 col-sm-6 col-xl-3">
                         <article class="card stat-card h-100">
                             <div class="stat-top"><span class="stat-icon payroll-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 14h3M16 13v.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="stat-menu">···</span></div>
                             <span class="stat-label">Payroll this month</span>
-                            <div class="stat-value-row"><strong class="currency-value">৳ 8.4L</strong><span class="trend neutral">October</span></div>
-                            <span class="stat-footnote">for 48 employees</span>
+                            <div class="stat-value-row"><strong class="currency-value">৳ <?php echo number_format($payrollAmount, 0); ?></strong><span class="trend neutral"><?php echo date('F'); ?></span></div>
+                            <span class="stat-footnote">for <?php echo $payrollTotal; ?> payroll records</span>
                         </article>
                     </div>
                 </section>
@@ -101,13 +168,14 @@ $totalEmployee = $result -> num_rows;
                             <div class="attendance-chart" role="img" aria-label="Bar chart showing attendance Monday through Sunday, with the highest attendance on Friday">
                                 <div class="chart-grid-lines"><span>50</span><span>40</span><span>30</span><span>20</span><span>10</span></div>
                                 <div class="chart-columns">
-                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 67%"></i><i class="bar-absent" style="height: 8%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Mon</span></div>
-                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 74%"></i><i class="bar-absent" style="height: 6%"></i><i class="bar-leave" style="height: 8%"></i></div><span>Tue</span></div>
-                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 70%"></i><i class="bar-absent" style="height: 8%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Wed</span></div>
-                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 79%"></i><i class="bar-absent" style="height: 5%"></i><i class="bar-leave" style="height: 7%"></i></div><span>Thu</span></div>
-                                    <div class="chart-column"><div class="bar-stack"><i class="bar-present" style="height: 84%"></i><i class="bar-absent" style="height: 4%"></i><i class="bar-leave" style="height: 6%"></i></div><span>Fri</span></div>
-                                    <div class="chart-column"><div class="bar-stack weekend-bars"><i class="bar-present" style="height: 12%"></i><i class="bar-absent" style="height: 2%"></i><i class="bar-leave" style="height: 2%"></i></div><span>Sat</span></div>
-                                    <div class="chart-column"><div class="bar-stack weekend-bars"><i class="bar-present" style="height: 10%"></i><i class="bar-absent" style="height: 2%"></i><i class="bar-leave" style="height: 2%"></i></div><span>Sun</span></div>
+                                    <?php foreach ($weeklyAttendance as $day) { ?>
+                                        <div class="chart-column">
+                                            <div class="bar-stack <?php echo in_array($day['label'], ['Sat','Sun']) ? 'weekend-bars' : ''; ?>">
+                                                <i class="bar-present" style="height: <?php echo $day['present']; ?>%"></i>
+                                            </div>
+                                            <span><?php echo $day['label']; ?></span>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </article>
@@ -120,11 +188,22 @@ $totalEmployee = $result -> num_rows;
                                 <a class="text-action" href="#departments">View all</a>
                             </div>
                             <div class="department-list">
-                                <div class="department-item"><span class="department-symbol design-symbol">D</span><span class="department-name">Design<small>Creative team</small></span><span class="department-total">12</span><span class="department-track"><i class="design-bar" style="width: 75%"></i></span></div>
-                                <div class="department-item"><span class="department-symbol engineering-symbol">E</span><span class="department-name">Engineering<small>Product &amp; tech</small></span><span class="department-total">16</span><span class="department-track"><i class="engineering-bar" style="width: 100%"></i></span></div>
-                                <div class="department-item"><span class="department-symbol marketing-symbol">M</span><span class="department-name">Marketing<small>Growth team</small></span><span class="department-total">8</span><span class="department-track"><i class="marketing-bar" style="width: 50%"></i></span></div>
-                                <div class="department-item"><span class="department-symbol people-symbol">P</span><span class="department-name">People &amp; Ops<small>Operations</small></span><span class="department-total">7</span><span class="department-track"><i class="people-bar" style="width: 44%"></i></span></div>
-                                <div class="department-item"><span class="department-symbol sales-symbol">S</span><span class="department-name">Sales<small>Client team</small></span><span class="department-total">5</span><span class="department-track"><i class="sales-bar" style="width: 31%"></i></span></div>
+                                <?php if (count($departmentRows) > 0) { ?>
+                                    <?php foreach ($departmentRows as $department) {
+                                        $departmentName = $department['department'] ?: 'Not assigned';
+                                        $departmentSymbol = strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $departmentName), 0, 1));
+                                        $departmentPercent = (int) round(((int) $department['total'] / $departmentMax) * 100);
+                                    ?>
+                                        <div class="department-item">
+                                            <span class="department-symbol people-symbol"><?php echo htmlspecialchars($departmentSymbol); ?></span>
+                                            <span class="department-name"><?php echo htmlspecialchars($departmentName); ?><small>Team members</small></span>
+                                            <span class="department-total"><?php echo (int) $department['total']; ?></span>
+                                            <span class="department-track"><i class="people-bar" style="width: <?php echo $departmentPercent; ?>%"></i></span>
+                                        </div>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <p class="text-secondary text-center py-4 mb-0">No departments found.</p>
+                                <?php } ?>
                             </div>
                         </article>
                     </div>
@@ -141,9 +220,20 @@ $totalEmployee = $result -> num_rows;
                                 <table class="table align-middle employee-table mb-0">
                                     <thead><tr><th scope="col">EMPLOYEE</th><th scope="col">DEPARTMENT</th><th scope="col">JOINED</th><th scope="col">STATUS</th></tr></thead>
                                     <tbody>
-                                        <tr><td><div class="employee-cell"><span class="employee-avatar avatar-lavender">NC</span><span><strong>Nadia Chowdhury</strong><small>Product Designer</small></span></div></td><td>Design</td><td>Nov 03, 2026</td><td><span class="status-badge status-active">Active</span></td></tr>
-                                        <tr><td><div class="employee-cell"><span class="employee-avatar avatar-peach">RK</span><span><strong>Rafi Khan</strong><small>Frontend Engineer</small></span></div></td><td>Engineering</td><td>Oct 28, 2026</td><td><span class="status-badge status-active">Active</span></td></tr>
-                                        <tr><td><div class="employee-cell"><span class="employee-avatar avatar-blue">MA</span><span><strong>Meher Afroz</strong><small>Marketing Associate</small></span></div></td><td>Marketing</td><td>Oct 24, 2026</td><td><span class="status-badge status-onboarding">Onboarding</span></td></tr>
+                                        <?php if ($newEmployees->num_rows > 0) { ?>
+                                            <?php while ($employee = $newEmployees->fetch_assoc()) {
+                                                $initials = strtoupper(substr(preg_replace('/\s+/', '', $employee['name']), 0, 2));
+                                            ?>
+                                                <tr>
+                                                    <td><div class="employee-cell"><span class="employee-avatar avatar-lavender"><?php echo htmlspecialchars($initials); ?></span><span><strong><?php echo htmlspecialchars($employee['name']); ?></strong><small><?php echo htmlspecialchars($employee['designation']); ?></small></span></div></td>
+                                                    <td><?php echo htmlspecialchars($employee['department']); ?></td>
+                                                    <td><?php echo date('M d, Y', strtotime($employee['joining_date'])); ?></td>
+                                                    <td><span class="status-badge status-active">Active</span></td>
+                                                </tr>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <tr><td colspan="4" class="text-center text-secondary py-4">No employees found.</td></tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -153,15 +243,25 @@ $totalEmployee = $result -> num_rows;
                     <div class="col-12 col-xl-5" id="leave-requests">
                         <article class="card dashboard-card leave-card h-100">
                             <div class="card-heading">
-                                <div><h2>Leave requests <span class="pending-count">4</span></h2><p>Requests waiting for your review.</p></div>
-                                <a class="text-action" href="#leave-requests">View all</a>
+                                <div><h2>Leave requests <span class="pending-count"><?php echo $pendingLeaveCount; ?></span></h2><p>Requests waiting for your review.</p></div>
+                                <a class="text-action" href="/hr-management/admin/leave_management/leave_management.php">View all</a>
                             </div>
                             <div class="leave-list">
-                                <div class="leave-item"><span class="employee-avatar avatar-peach">SA</span><span class="leave-person"><strong>Samira Ahmed</strong><small>Annual leave · Nov 06–08</small></span><span class="leave-duration">3 days</span></div>
-                                <div class="leave-item"><span class="employee-avatar avatar-blue">TI</span><span class="leave-person"><strong>Tamim Iqbal</strong><small>Sick leave · Nov 05</small></span><span class="leave-duration">1 day</span></div>
-                                <div class="leave-item"><span class="employee-avatar avatar-mint">FR</span><span class="leave-person"><strong>Farah Rahman</strong><small>Personal leave · Nov 10–11</small></span><span class="leave-duration">2 days</span></div>
+                                <?php if ($pendingLeaves->num_rows > 0) { ?>
+                                    <?php while ($leave = $pendingLeaves->fetch_assoc()) {
+                                        $initials = strtoupper(substr(preg_replace('/\s+/', '', $leave['employee_name']), 0, 2));
+                                    ?>
+                                        <div class="leave-item">
+                                            <span class="employee-avatar avatar-peach"><?php echo htmlspecialchars($initials); ?></span>
+                                            <span class="leave-person"><strong><?php echo htmlspecialchars($leave['employee_name']); ?></strong><small><?php echo htmlspecialchars(ucfirst($leave['leave_type'])); ?> leave · <?php echo date('M d', strtotime($leave['start_date'])); ?>–<?php echo date('M d', strtotime($leave['end_date'])); ?></small></span>
+                                            <span class="leave-duration"><?php echo (int) $leave['total_days']; ?> days</span>
+                                        </div>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <p class="text-secondary text-center py-4 mb-0">No pending leave requests.</p>
+                                <?php } ?>
                             </div>
-                            <a class="review-link" href="#leave-requests">Review all requests <span aria-hidden="true">→</span></a>
+                            <a class="review-link" href="/hr-management/admin/leave_management/leave_management.php">Review all requests <span aria-hidden="true">→</span></a>
                         </article>
                     </div>
                 </section>

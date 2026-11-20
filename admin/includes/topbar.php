@@ -5,6 +5,9 @@ $userInitials = strtoupper(substr(preg_replace('/\s+/', '', $userName), 0, 2));
 if ($userInitials === '') {
     $userInitials = 'AD';
 }
+$profilePicture = basename((string) ($_SESSION['profile_picture'] ?? ''));
+$profilePictureFile = dirname(__DIR__, 2) . '/assets/uploads/profile-pictures/' . $profilePicture;
+$hasProfilePicture = $profilePicture !== '' && is_file($profilePictureFile);
 ?>
 
 <header class="topbar">
@@ -22,7 +25,11 @@ if ($userInitials === '') {
         </button>
         <div class="dropdown">
             <button class="topbar-avatar border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Profile menu">
-                <?php echo htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8'); ?>
+                <?php if ($hasProfilePicture) { ?>
+                    <img class="rounded-circle object-fit-cover" src="/hr-management/assets/uploads/profile-pictures/<?php echo rawurlencode($profilePicture); ?>" alt="Profile picture" style="width: 38px; height: 38px;">
+                <?php } else { ?>
+                    <?php echo htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8'); ?>
+                <?php } ?>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item text-danger" href="/hr-management/logout.php">Logout</a></li>
